@@ -24,7 +24,7 @@ download_dependency(
     URL_MD5     ${LINUX_URL_MD5}
 )
 
-if(WIN32 OR NOT ENABLE_BUILD_VMM)
+if(WIN32 OR CYGWIN OR NOT ENABLE_BUILD_VMM)
     return()
 endif()
 

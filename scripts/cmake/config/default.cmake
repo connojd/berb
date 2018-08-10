@@ -56,6 +56,46 @@ set(LINUX_URL_MD5 "95478cfbfbffac542c847a76199b4541"
     "Linux URL MD5 hash"
 )
 
+set(GCC_URL "https://ftp.gnu.org/gnu/gcc/gcc-7.3.0/gcc-7.3.0.tar.gz"
+    CACHE INTERNAL FORCE
+    "GCC URL"
+)
+
+set(GCC_URL_MD5 "747d5010b7c6938b480bc6e4d7c4be9a"
+    CACHE INTERNAL FORCE
+    "GCC URL MD5 hash"
+)
+
+set(GMP_URL "https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz"
+    CACHE INTERNAL FORCE
+    "GMP URL"
+)
+
+set(GMP_URL_MD5 "f58fa8001d60c4c77595fbbb62b63c1d"
+    CACHE INTERNAL FORCE
+    "GMP URL MD5 hash"
+)
+
+set(MPFR_URL "https://www.mpfr.org/mpfr-current/mpfr-4.0.1.tar.xz"
+    CACHE INTERNAL FORCE
+    "MPFR URL"
+)
+
+set(MPFR_URL_MD5 "b8dd19bd9bb1ec8831a6a582a7308073"
+    CACHE INTERNAL FORCE
+    "MPFR URL MD5 hash"
+)
+
+set(MPC_URL "https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"
+    CACHE INTERNAL FORCE
+    "MPC URL"
+)
+
+set(MPC_URL_MD5 "4125404e41e482ec68282a2e687f6c73"
+    CACHE INTERNAL FORCE
+    "MPC URL MD5 hash"
+)
+
 # ------------------------------------------------------------------------------
 # Linux guest configs
 # ------------------------------------------------------------------------------
