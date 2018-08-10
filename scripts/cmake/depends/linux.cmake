@@ -24,27 +24,42 @@ download_dependency(
     URL_MD5     ${LINUX_URL_MD5}
 )
 
-if(ENABLE_BUILD_VMM)
-    if(NOT WIN32)
-
-        # This must come before configure_file
-        set(INITRAMFS_SRC_FILE ${INITRAMFS_LIST})
-        if(EXISTS ${INITRAMFS_IMAGE})
-            set(INITRAMFS_SRC_FILE ${INITRAMFS_IMAGE})
-        endif()
-
-        configure_file(
-            ${LINUX_CONFIG_FILE}
-            ${LINUX_OUTPUT_DIR}/.config
-            @ONLY
-            NEWLINE_STYLE UNIX
-        )
-
-        add_dependency(
-            linux userspace
-            CONFIGURE_COMMAND make O=${LINUX_OUTPUT_DIR} -C ${CACHE_DIR}/linux olddefconfig
-            BUILD_COMMAND     make O=${LINUX_OUTPUT_DIR} -C ${CACHE_DIR}/linux -j${BUILD_TARGET_CORES}
-            INSTALL_COMMAND   /usr/bin/true
-        )
-    endif()
+if(WIN32 OR NOT ENABLE_BUILD_VMM)
+    return()
 endif()
+
+#
+# This must come before configure_file. If an existing image path is
+# set by the user, it takes priority over any list file.
+#
+
+if(EXISTS ${INITRAMFS_IMAGE})
+    set(LINUX_INITRAMFS_SOURCE ${INITRAMFS_IMAGE})
+else()
+    configure_file(
+        ${LINUX_INITRAMFS_IN}
+        ${LINUX_BUILD_DIR}/.initramfs.list
+        @ONLY
+        NEWLINE_STYLE UNIX
+    )
+    set(LINUX_INITRAMFS_SOURCE ${LINUX_BUILD_DIR}/.initramfs.list)
+endif()
+
+#
+# Now that initramfs source is set, we configure .config.in -> .config
+# for the linux build and add the dependency.
+#
+
+configure_file(
+    ${LINUX_CONFIG_IN}
+    ${LINUX_BUILD_DIR}/.config
+    @ONLY
+    NEWLINE_STYLE UNIX
+)
+
+add_dependency(
+    linux userspace
+    CONFIGURE_COMMAND make O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux olddefconfig
+    BUILD_COMMAND     make O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux -j${BUILD_TARGET_CORES}
+    INSTALL_COMMAND   /usr/bin/true
+)

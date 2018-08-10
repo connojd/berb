@@ -24,17 +24,17 @@
 
 set(HAVOC_SRC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..
     CACHE INTERNAL
-    "Source root directory"
+    "Havoc source root directory"
 )
 
 set(HAVOC_SRC_CONFIG_DIR ${HAVOC_SRC_ROOT_DIR}/config
     CACHE INTERNAL
-    "Guest config directory"
+    "Directory for storing build config.in files for guests"
 )
 
 set(HAVOC_SRC_CMAKE_DIR ${HAVOC_SRC_ROOT_DIR}/scripts/cmake
     CACHE INTERNAL
-    "CMake directory"
+    "CMake root directory"
 )
 
 set(HAVOC_SRC_CMAKE_DEPENDS_DIR ${HAVOC_SRC_CMAKE_DIR}/depends
@@ -61,29 +61,36 @@ set(LINUX_URL_MD5 "95478cfbfbffac542c847a76199b4541"
 # ------------------------------------------------------------------------------
 
 add_config(
-    CONFIG_NAME LINUX_CONFIG_FILE
-    CONFIG_TYPE STRING
-    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux-tiny.config
-    DESCRIPTION "The .config file for the linux build"
-)
-
-add_config(
-    CONFIG_NAME LINUX_OUTPUT_DIR
+    CONFIG_NAME LINUX_BUILD_DIR
     CONFIG_TYPE STRING
     DEFAULT_VAL ${DEPENDS_DIR}/linux/${USERSPACE_PREFIX}/build
-    DESCRIPTION "The directory for the linux build output"
+    DESCRIPTION "The build directory for the guest kernel"
 )
 
 add_config(
-    CONFIG_NAME INITRAMFS_LIST
+    CONFIG_NAME LINUX_CONFIG_IN
     CONFIG_TYPE STRING
-    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux-tiny.initramfs
-    DESCRIPTION "The input to linux' gen_init_cpio binary"
+    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux/tiny.config.in
+    DESCRIPTION "The .config file for the guest kernel"
 )
 
 add_config(
-    CONFIG_NAME INITRAMFS_IMAGE
+    CONFIG_NAME LINUX_INITRAMFS_IN
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux/tiny.initramfs.in
+    DESCRIPTION "The input to linux' usr/gen_init_cpio binary"
+)
+
+add_config(
+    CONFIG_NAME LINUX_INITRAMFS_ROOT
     CONFIG_TYPE STRING
     DEFAULT_VAL ""
-    DESCRIPTION "Path to existing initramfs image"
+    DESCRIPTION "The root of the initramfs to build"
+)
+
+add_config(
+    CONFIG_NAME LINUX_INITRAMFS_IMAGE
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
+    DESCRIPTION "Path to an existing initramfs image fit for the guest kernel"
 )
