@@ -59,7 +59,7 @@ configure_file(
 
 add_dependency(
     linux userspace
-    CONFIGURE_COMMAND make O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux olddefconfig
+    CONFIGURE_COMMAND make CC=${VMM_PREFIX_PATH}/bin/gcc O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux olddefconfig
     BUILD_COMMAND     make O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux -j${BUILD_TARGET_CORES}
     INSTALL_COMMAND   /usr/bin/true
 )

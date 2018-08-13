@@ -33,7 +33,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
 # ------------------------------------------------------------------------------
 
 include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR gcc)
-include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR linux)
+#include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR linux)
 
 # ------------------------------------------------------------------------------
 # VMM Components
