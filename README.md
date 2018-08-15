@@ -13,14 +13,14 @@ following example demonstrates how to create a simple guest image with havoc.
 
 > **NOTE**: If using WSL, run `setup-wsl.sh` before running the commands below
 
-Clone `havoc` and `hypervisor` to build the image. Note that even with the
-minimal config used, the kernel still takes a bit to compile. If make appears
-to be hung, run top to see if gcc is running. If it is then it should
-complete in a reasonable amount of time. If it's not running, that's a bug.
+CMake will download and decompress Linux into `${CACHE_DIR}`. Be patient, the
+decompression takes a while, especially on WSL, and even with the minimal
+config used, the kernel still takes a bit to compile. Note that CMake doesn't
+output anything during these times. The following commands assume havoc has
+been cloned into `$HOME/bareflank`.
 ```
 cd $HOME/bareflank
 git clone https://github.com/bareflank/hypervisor.git
-git clone https://github.com/connojd/havoc.git
 mkdir build
 cd build
 cmake ../hypervisor -DCACHE_DIR=../cache -DEXTENSION=../havoc
@@ -32,16 +32,16 @@ Once `make` completes you can test the kernel with `qemu`:
 qemu-system-x86_64 -kernel depends/linux/x86_64-userspace-elf/build/arch/x86_64/boot/bzImage
 ```
 
-With any luck, the kernel will boot and you will see the init process
+With any luck, the kernel will boot and you will see the `init` process
 repeatedly saying "hello" from qemu's serial console. The source and binary for
-the init process is under the `initramfs` directory.
+the `init` process is under the `initramfs` directory.
 
 ### Customization
 The above example can be modified to suit your needs. If you don't have an
 existing image, havoc provides a mechanism to build your own. The CMake
 variables of interest are:
   - `LINUX_CONFIG_IN` is the path to a kernel `.config` file. The build
-    will pass this config to the kernel before making it. It may be customized
+    will pass this config to the kernel before `make`ing it. It may be customized
     during CMake configuration time by adding `@VAR@` to config items of
     interest, where `VAR` is a CMake variable identifier. The default
     `config/linux/tiny.config.in` only uses
