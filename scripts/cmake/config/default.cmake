@@ -124,8 +124,8 @@ add_config(
 add_config(
     CONFIG_NAME LINUX_INITRAMFS_ROOT
     CONFIG_TYPE STRING
-    DEFAULT_VAL ""
-    DESCRIPTION "The root of the initramfs to build"
+    DEFAULT_VAL ${HAVOC_SRC_ROOT_DIR}/initramfs/
+    DESCRIPTION "The root of the initramfs to build into the kernel"
 )
 
 add_config(
