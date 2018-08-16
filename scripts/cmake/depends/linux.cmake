@@ -33,8 +33,9 @@ endif()
 # set by the user, it takes priority over any list file.
 #
 
-if(EXISTS ${INITRAMFS_IMAGE})
-    set(LINUX_INITRAMFS_SOURCE ${INITRAMFS_IMAGE})
+if(EXISTS ${LINUX_INITRAMFS_IMAGE})
+    set(LINUX_INITRAMFS_SOURCE ${LINUX_INITRAMFS_IMAGE})
+    file(APPEND ${LINUX_INITRAMFS_IN} "")
 else()
     configure_file(
         ${LINUX_INITRAMFS_IN}
@@ -50,21 +51,42 @@ endif()
 # for the linux build and add the dependency.
 #
 
+configure_file(
+    ${LINUX_CONFIG_IN}
+    ${LINUX_BUILD_DIR}/.config
+    @ONLY
+    NEWLINE_STYLE UNIX
+)
+
 add_custom_command(
-    OUTPUT ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
+    OUTPUT ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.much-kludge
+    COMMAND ${CMAKE_COMMAND} -E touch ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.much-kludge
     COMMAND ${CMAKE_COMMAND} -E touch ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
-    MAIN_DEPENDENCY ${LINUX_CONFIG_IN}
+    DEPENDS ${LINUX_CONFIG_IN}
 )
 add_custom_target(
-    update-config
+    stamp-much-kludge
     COMMAND ""
-    DEPENDS ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
+    DEPENDS ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.much-kludge
+)
+
+add_custom_command(
+    OUTPUT ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.very-kludge
+    COMMAND ${CMAKE_COMMAND} -E touch ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.very-kludge
+    COMMAND ${CMAKE_COMMAND} -E touch ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
+    DEPENDS ${LINUX_INITRAMFS_IN}
+)
+add_custom_target(
+    stamp-very-kludge
+    COMMAND ""
+    DEPENDS ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update.very-kludge
 )
 
 add_dependency(
     linux userspace
     CONFIGURE_COMMAND make CC=gcc O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux olddefconfig
     BUILD_COMMAND     make CC=gcc O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux -j${BUILD_TARGET_CORES}
-    INSTALL_COMMAND   /bin/true
-    DEPENDS update-config
+    INSTALL_COMMAND   sudo make O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux modules_install
+    DEPENDS stamp-much-kludge
+    DEPENDS stamp-very-kludge
 )
