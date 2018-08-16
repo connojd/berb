@@ -50,11 +50,15 @@ endif()
 # for the linux build and add the dependency.
 #
 
-configure_file(
-    ${LINUX_CONFIG_IN}
-    ${LINUX_BUILD_DIR}/.config
-    @ONLY
-    NEWLINE_STYLE UNIX
+add_custom_command(
+    OUTPUT ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
+    COMMAND ${CMAKE_COMMAND} -E touch ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
+    MAIN_DEPENDENCY ${LINUX_CONFIG_IN}
+)
+add_custom_target(
+    update-config
+    COMMAND ""
+    DEPENDS ${LINUX_BUILD_DIR}/../stamp/linux_${USERSPACE_PREFIX}-update
 )
 
 add_dependency(
@@ -62,4 +66,5 @@ add_dependency(
     CONFIGURE_COMMAND make CC=gcc O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux olddefconfig
     BUILD_COMMAND     make CC=gcc O=${LINUX_BUILD_DIR} -C ${CACHE_DIR}/linux -j${BUILD_TARGET_CORES}
     INSTALL_COMMAND   /bin/true
+    DEPENDS update-config
 )
