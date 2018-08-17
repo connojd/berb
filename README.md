@@ -51,7 +51,7 @@ variables of interest are:
      basic text file the kernel uses to generate an initramfs. Note
      that any `file` line must resolve to a full path at configure time. Please
      see `usr/gen_init_cpio.c` in the kernel tree for more details.
-     The default is `config/linux/tiny.initramfs.in`.
+     The default is `config/initramfs/tiny.config.in`.
   - `LINUX_INITRAMFS_IMAGE` is the full path to an existing initramfs to be
      embedded into the kernel. If this is set, then `LINUX_INITRAMFS_IN` will
      be ignored.

@@ -16,8 +16,6 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-# include(${CMAKE_CURRENT_LIST_DIR}/../macros.cmake)
-
 # ------------------------------------------------------------------------------
 # Source tree
 # ------------------------------------------------------------------------------
@@ -46,54 +44,14 @@ set(HAVOC_SRC_CMAKE_DEPENDS_DIR ${HAVOC_SRC_CMAKE_DIR}/depends
 # Links
 # ------------------------------------------------------------------------------
 
-set(LINUX_URL "https://git.kernel.org/torvalds/t/linux-4.18-rc8.tar.gz"
+set(LINUX_URL "https://github.com/torvalds/linux/archive/v4.18.tar.gz"
     CACHE INTERNAL FORCE
     "Linux URL"
 )
 
-set(LINUX_URL_MD5 "95478cfbfbffac542c847a76199b4541"
+set(LINUX_URL_MD5 "e7d9bb36da7aee08eb1f07a54a2754bd"
     CACHE INTERNAL FORCE
     "Linux URL MD5 hash"
-)
-
-set(GCC_URL "https://ftp.gnu.org/gnu/gcc/gcc-7.3.0/gcc-7.3.0.tar.gz"
-    CACHE INTERNAL FORCE
-    "GCC URL"
-)
-
-set(GCC_URL_MD5 "747d5010b7c6938b480bc6e4d7c4be9a"
-    CACHE INTERNAL FORCE
-    "GCC URL MD5 hash"
-)
-
-set(GMP_URL "https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz"
-    CACHE INTERNAL FORCE
-    "GMP URL"
-)
-
-set(GMP_URL_MD5 "f58fa8001d60c4c77595fbbb62b63c1d"
-    CACHE INTERNAL FORCE
-    "GMP URL MD5 hash"
-)
-
-set(MPFR_URL "https://www.mpfr.org/mpfr-current/mpfr-4.0.1.tar.xz"
-    CACHE INTERNAL FORCE
-    "MPFR URL"
-)
-
-set(MPFR_URL_MD5 "b8dd19bd9bb1ec8831a6a582a7308073"
-    CACHE INTERNAL FORCE
-    "MPFR URL MD5 hash"
-)
-
-set(MPC_URL "https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"
-    CACHE INTERNAL FORCE
-    "MPC URL"
-)
-
-set(MPC_URL_MD5 "4125404e41e482ec68282a2e687f6c73"
-    CACHE INTERNAL FORCE
-    "MPC URL MD5 hash"
 )
 
 # ------------------------------------------------------------------------------
@@ -117,8 +75,8 @@ add_config(
 add_config(
     CONFIG_NAME LINUX_INITRAMFS_IN
     CONFIG_TYPE STRING
-    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux/tiny.initramfs.in
-    DESCRIPTION "The input to linux' usr/gen_init_cpio binary"
+    DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/initramfs/tiny.config.in
+    DESCRIPTION "The input to the linux tree's usr/gen_init_cpio binary"
 )
 
 add_config(
