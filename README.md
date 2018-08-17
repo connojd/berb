@@ -11,7 +11,7 @@ to create a fully-functional hyperivsor.
 Havoc is an extension of Bareflank, so it uses Bareflank's build system. The
 following example demonstrates how to create a simple guest image with havoc.
 
-> **NOTE**: If using WSL, run `setup-wsl.sh` before running the commands below
+> **NOTE**: If using WSL, run `scripts/setup/wsl.sh` before running the commands below
 
 CMake will download and decompress Linux into `${CACHE_DIR}`. Be patient, the
 decompression takes a while, especially on WSL, and even with the minimal
