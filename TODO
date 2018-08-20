@@ -1,0 +1,2 @@
+Configure BR2 kernel config after cmake's config.in is
+configured

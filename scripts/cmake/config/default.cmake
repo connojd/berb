@@ -92,3 +92,10 @@ add_config(
     DEFAULT_VAL ""
     DESCRIPTION "Path to an existing initramfs image fit for the guest kernel"
 )
+
+add_config(
+    CONFIG_NAME EMBED_INITRAMFS
+    CONFIG_TYPE BOOL
+    DEFAULT_VAL ON
+    DESCRIPTION "Embed the initramfs into the kernel image"
+)

@@ -46,6 +46,10 @@ else()
     set(LINUX_INITRAMFS_SOURCE ${LINUX_BUILD_DIR}/.initramfs.list)
 endif()
 
+if(NOT ${EMBED_INITRAMFS})
+    set(LINUX_INITRAMFS_SOURCE "")
+endif()
+
 #
 # Now that initramfs source is set, we configure .config.in -> .config
 # for the linux build and add the dependency.
