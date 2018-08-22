@@ -1,5 +1,5 @@
 #
-# Bareflank Hypervisor
+# Havoc Hypervisor
 # Copyright (C) 2018 Assured Information Security, Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -32,7 +32,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
 # General Dependencies
 # ------------------------------------------------------------------------------
 
-include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR linux)
+#include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR linux)
+include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR buildroot)
 
 # ------------------------------------------------------------------------------
 # VMM Components
