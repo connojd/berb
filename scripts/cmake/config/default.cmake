@@ -59,7 +59,7 @@ set(BUILDROOT_URL "https://github.com/connojd/buildroot/archive/master.zip"
     "Buildroot URL"
 )
 
-set(BUILDROOT_URL_MD5 "16cdf6cced63c65bbc5006d398a6d4ec"
+set(BUILDROOT_URL_MD5 "7a2b095725d6917ff0215c40160e1904"
     CACHE INTERNAL FORCE
     "Buildroot URL MD5 hash"
 )
