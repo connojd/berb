@@ -80,6 +80,13 @@ add_config(
 )
 
 add_config(
+    CONFIG_NAME BUILDROOT_ROOTFS_HOOK
+    CONFIG_TYPE FILEPATH
+    DEFAULT_VAL "${HAVOC_SRC_ROOT_DIR}/scripts/xen/systemd-init.sh"
+    DESCRIPTION "The hook for customizing the rootfs prior to archiving"
+)
+
+add_config(
     CONFIG_NAME LINUX_CONFIG
     CONFIG_TYPE FILEPATH
     DEFAULT_VAL ${HAVOC_SRC_CONFIG_DIR}/linux/xenstore.config
