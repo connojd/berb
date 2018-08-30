@@ -28,33 +28,6 @@ if(WIN32 OR CYGWIN OR NOT ENABLE_BUILD_VMM)
     return()
 endif()
 
-#
-# This must come before configure_file. If an existing image path is
-# set by the user, it takes priority over any list file.
-#
-#
-#if(EXISTS ${BUILDROOT_INITRAMFS_IMAGE})
-#    set(BUILDROOT_INITRAMFS_SOURCE ${BUILDROOT_INITRAMFS_IMAGE})
-#    file(APPEND ${BUILDROOT_INITRAMFS_IN} "")
-#else()
-#    configure_file(
-#        ${BUILDROOT_INITRAMFS_IN}
-#        ${BUILDROOT_BUILD_DIR}/.initramfs.list
-#        @ONLY
-#        NEWLINE_STYLE UNIX
-#    )
-#    set(BUILDROOT_INITRAMFS_SOURCE ${BUILDROOT_BUILD_DIR}/.initramfs.list)
-#endif()
-#
-#if(NOT ${EMBED_INITRAMFS})
-#    set(BUILDROOT_INITRAMFS_SOURCE "")
-#endif()
-#
-#
-# Now that initramfs source is set, we configure .config.in -> .config
-# for the linux build and add the dependency.
-#
-
 configure_file(
     ${BUILDROOT_CONFIG_IN}
     ${BUILDROOT_BUILD_DIR}/.config
@@ -90,5 +63,5 @@ add_dependency(
     buildroot userspace
     CONFIGURE_COMMAND make CC=gcc O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
     BUILD_COMMAND     make CC=gcc O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot
-    INSTALL_COMMAND   /bin/true #sudo make O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/linux modules_install
+    INSTALL_COMMAND   /bin/true
 )

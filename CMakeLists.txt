@@ -22,61 +22,9 @@
 
 include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
 
-# ------------------------------------------------------------------------------
-# Project File
-# ------------------------------------------------------------------------------
-#
-#add_project_include(${HAVOC_SOURCE_CMAKE_DIR}/macros.cmake)
 #
 # ------------------------------------------------------------------------------
 # General Dependencies
 # ------------------------------------------------------------------------------
 
-#include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR linux)
 include_dependency(HAVOC_SRC_CMAKE_DEPENDS_DIR buildroot)
-
-# ------------------------------------------------------------------------------
-# VMM Components
-# ------------------------------------------------------------------------------
-#
-# if(ENABLE_BUILD_VMM)
-#     add_subproject(
-#         eapis_bfvmm vmm
-#         DEPENDS bfvmm
-#         DEPENDS bfintrinsics
-#         DEPENDS capstone
-#         SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/bfvmm/src
-#     )
-#
-#     add_subproject(
-#         eapis_bfvmm_main vmm
-#         DEPENDS eapis_bfvmm
-#         SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/bfvmm/src/main
-#     )
-#
-#     add_subproject(
-#         eapis_integration vmm
-#         DEPENDS eapis_bfvmm
-#         SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/bfvmm/integration/
-#     )
-# endif()
-#
-# # ------------------------------------------------------------------------------
-# # Unit Tests
-# # ------------------------------------------------------------------------------
-#
-# if(ENABLE_BUILD_TEST)
-#     add_subproject(
-#         eapis_bfvmm test
-#         DEPENDS bfvmm
-#         DEPENDS capstone
-#         SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/bfvmm/tests/
-#     )
-#
-#     add_subproject(
-#         eapis_bfsdk test
-#         DEPENDS bfvmm
-#         DEPENDS capstone
-#         SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/bfsdk/tests/
-#     )
-# endif()
