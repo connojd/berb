@@ -81,8 +81,8 @@ add_config(
 
 add_config(
     CONFIG_NAME BUILDROOT_ROOTFS_HOOK
-    CONFIG_TYPE FILEPATH
-    DEFAULT_VAL "${HAVOC_SRC_ROOT_DIR}/scripts/xen/systemd-init.sh"
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
     DESCRIPTION "The hook for customizing the rootfs prior to archiving"
 )
 
