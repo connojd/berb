@@ -1,7 +1,0 @@
-dir /dev 755 0 0
-dir /sys 755 0 0
-dir /mnt 755 0 0
-dir /proc 755 0 0
-nod /dev/ttyS0 644 0 0 c 5 2
-nod /dev/console 644 0 0 c 5 1
-file /init @LINUX_INITRAMFS_ROOT@init 500 0 0

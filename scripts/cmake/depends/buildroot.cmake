@@ -48,7 +48,7 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} reconfigure
         -DBUILDROOT_CONFIG_IN=${BUILDROOT_CONFIG_IN}
         -DBUILDROOT_BUILD_DIR=${BUILDROOT_BUILD_DIR}
         -DLINUX_CONFIG=${LINUX_CONFIG}
-        -P ${HAVOC_SRC_CONFIG_DIR}/buildroot/reconfigure.cmake
+        -P ${HAVOC_CONFIG_DIR}/buildroot/reconfigure.cmake
     DEPENDERS build
     DEPENDEES configure
     DEPENDS ${BUILDROOT_CONFIG_IN}
