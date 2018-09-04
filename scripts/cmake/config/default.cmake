@@ -25,17 +25,17 @@ set(HAVOC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..
     "Havoc source root directory"
 )
 
-set(HAVOC_CONFIG_DIR ${HAVOC_SRC_ROOT_DIR}/config
+set(HAVOC_CONFIG_DIR ${HAVOC_ROOT_DIR}/config
     CACHE INTERNAL
-    "Directory for storing build config.in files for guests"
+    "Directory for storing configuration files for various guest images"
 )
 
-set(HAVOC_CMAKE_DIR ${HAVOC_SRC_ROOT_DIR}/scripts/cmake
+set(HAVOC_CMAKE_DIR ${HAVOC_ROOT_DIR}/scripts/cmake
     CACHE INTERNAL
     "CMake root directory"
 )
 
-set(HAVOC_CMAKE_DEPENDS_DIR ${HAVOC_SRC_CMAKE_DIR}/depends
+set(HAVOC_CMAKE_DEPENDS_DIR ${HAVOC_CMAKE_DIR}/depends
     CACHE INTERNAL
     "CMake depends directory"
 )
@@ -54,41 +54,53 @@ set(BUILDROOT_URL_MD5 "7a2b095725d6917ff0215c40160e1904"
     "Buildroot URL MD5 hash"
 )
 
-# ------------------------------------------------------------------------------
-# Buildroot configs
-# ------------------------------------------------------------------------------
-
-add_config(
-    CONFIG_NAME BUILDROOT_BUILD_DIR
-    CONFIG_TYPE STRING
-    DEFAULT_VAL ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
-    DESCRIPTION "The build directory for the guest image"
+set(BUILDROOT_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
+    CACHE INTERNAL
+    "The build directory for the guest image"
 )
 
-add_config(
-    CONFIG_NAME BUILDROOT_CONFIG_IN
-    CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/buildroot/xenstore.config.in
-    DESCRIPTION "The .config file used by buildroot to build the guest image"
-)
+# ------------------------------------------------------------------------------
+# Configs
+# ------------------------------------------------------------------------------
 
 add_config(
     CONFIG_NAME BUILDROOT_ROOTFS_OVERLAY
     CONFIG_TYPE STRING
     DEFAULT_VAL ""
-    DESCRIPTION "The rootfs to overlay onto the guest's rootfs"
+    DESCRIPTION "Directory to overlay onto the rootfs built by buildroot"
 )
 
 add_config(
-    CONFIG_NAME BUILDROOT_ROOTFS_HOOK
+    CONFIG_NAME BUILDROOT_PREBUILD_HOOK
     CONFIG_TYPE STRING
     DEFAULT_VAL ""
-    DESCRIPTION "The hook for customizing the rootfs prior to archiving"
+    DESCRIPTION "Hook for pre-build customization of the image"
 )
 
 add_config(
-    CONFIG_NAME LINUX_CONFIG
+    CONFIG_NAME BUILDROOT_FAKEROOT_HOOK
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
+    DESCRIPTION "Hook for post-build and pre-archive customization of the image"
+)
+
+add_config(
+    CONFIG_NAME BUILDROOT_POSTARCHIVE_HOOK
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
+    DESCRIPTION "Hook for post-archive customization of the image"
+)
+
+add_config(
+    CONFIG_NAME BUILDROOT_CONFIG_IN
     CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/linux/xenstore.config
+    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/xenstore/buildroot.config.in
+    DESCRIPTION "The .config file used by buildroot to build the guest image"
+)
+
+add_config(
+    CONFIG_NAME LINUX_CONFIG_IN
+    CONFIG_TYPE FILEPATH
+    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/xenstore/linux.config.in
     DESCRIPTION "The .config file for the guest kernel"
 )

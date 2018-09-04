@@ -18,7 +18,7 @@
 
 configure_file(
     ${BUILDROOT_CONFIG_IN}
-    ${BUILDROOT_BUILD_DIR}/.config
+    ${BUILDROOT_CONFIG_OUT}
     @ONLY
     NEWLINE_STYLE UNIX
 )
