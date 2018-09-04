@@ -30,7 +30,12 @@ set(HAVOC_CONFIG_DIR ${HAVOC_ROOT_DIR}/config
     "Directory for storing configuration files for various guest images"
 )
 
-set(HAVOC_CMAKE_DIR ${HAVOC_ROOT_DIR}/scripts/cmake
+set(HAVOC_SCRIPTS_DIR ${HAVOC_ROOT_DIR}/scripts
+    CACHE INTERNAL
+    "Directory for storing script files (cmake, bash, etc)"
+)
+
+set(HAVOC_CMAKE_DIR ${HAVOC_SCRIPTS_DIR}/cmake
     CACHE INTERNAL
     "CMake root directory"
 )
@@ -80,8 +85,8 @@ add_config(
 add_config(
     CONFIG_NAME BUILDROOT_FAKEROOT_HOOK
     CONFIG_TYPE STRING
-    DEFAULT_VAL ""
-    DESCRIPTION "Hook for post-build and pre-archive customization of the image"
+    DEFAULT_VAL "${HAVOC_SCRIPTS_DIR}/hooks/fakeroot/xenstore.sh"
+    DESCRIPTION "Hook for post-build, pre-archive customization of the image"
 )
 
 add_config(
