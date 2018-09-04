@@ -32,7 +32,7 @@ add_dependency(
     buildroot userspace
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
     BUILD_COMMAND     make CC=gcc O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot
-    INSTALL_COMMAND   ""
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
 )
 
 
