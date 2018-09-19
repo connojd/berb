@@ -16,16 +16,9 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-# ------------------------------------------------------------------------------
-# Config
-# ------------------------------------------------------------------------------
-
-include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
-
-#
-# ------------------------------------------------------------------------------
-# General Dependencies
-# ------------------------------------------------------------------------------
-
-include_dependency(HAVOC_CMAKE_DEPENDS_DIR crosstool-ng)
-include_dependency(HAVOC_CMAKE_DEPENDS_DIR buildroot)
+configure_file(
+    ${CT_CONFIG_IN}
+    ${CT_CONFIG_OUT}
+    @ONLY
+    NEWLINE_STYLE UNIX
+)

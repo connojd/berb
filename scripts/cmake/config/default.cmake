@@ -46,15 +46,63 @@ set(HAVOC_CMAKE_DEPENDS_DIR ${HAVOC_CMAKE_DIR}/depends
 )
 
 # ------------------------------------------------------------------------------
-# Links
+# Crosstool variables
 # ------------------------------------------------------------------------------
 
-set(BUILDROOT_URL "https://github.com/connojd/buildroot/archive/master.zip"
+set(CT_URL "https://github.com/connojd/crosstool-ng/archive/master.zip"
+    CACHE INTERNAL FORCE
+    "Crosstool-ng URL"
+)
+
+set(CT_URL_MD5 "0e487e9da3013cbe20d07891c33e10ff"
+    CACHE INTERNAL FORCE
+    "Crosstool-ng URL MD5 hash"
+)
+
+set(CT_BUILD_DIR ${DEPENDS_DIR}/crosstool-ng/${USERSPACE_PREFIX}/build
+    CACHE INTERNAL
+    "The build dir for the toolchain targeting the guest image"
+)
+
+#
+# Note that crosstool-ng provides many preconfigured toolchains.
+# You can run ./ct-ng list-samples to see them all. As we use/test
+# more, we can pass them to the OPTIONS argument here.
+#
+# These configs are all the information that buildroot needs about
+# the external toolchain.
+#
+add_config(
+    CONFIG_NAME CT_TARGET
+    CONFIG_TYPE STRING
+    DEFAULT_VAL "x86_64-unknown-linux-gnu"
+    DESCRIPTION "Target tuple of the toolchain"
+)
+
+add_config(
+    CONFIG_NAME CT_TARGET_VENDOR
+    CONFIG_TYPE STRING
+    DEFAULT_VAL "erb"
+    DESCRIPTION "The vendor of the toolchain"
+)
+
+add_config(
+    CONFIG_NAME CT_PREFIX_DIR
+    CONFIG_TYPE STRING
+    DEFAULT_VAL "${CT_BUILD_DIR}/x-tools/${CT_TARGET}"
+    DESCRIPTION "Directory of toolchain prefix"
+)
+
+# ------------------------------------------------------------------------------
+# Buildroot
+# ------------------------------------------------------------------------------
+
+set(BUILDROOT_URL "https://buildroot.org/downloads/buildroot-2018.08.tar.gz"
     CACHE INTERNAL FORCE
     "Buildroot URL"
 )
 
-set(BUILDROOT_URL_MD5 "7a2b095725d6917ff0215c40160e1904"
+set(BUILDROOT_URL_MD5 "8cc486858fc7812388dd82c27c3a2dcc"
     CACHE INTERNAL FORCE
     "Buildroot URL MD5 hash"
 )
@@ -63,10 +111,6 @@ set(BUILDROOT_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
     CACHE INTERNAL
     "The build directory for the guest image"
 )
-
-# ------------------------------------------------------------------------------
-# Configs
-# ------------------------------------------------------------------------------
 
 add_config(
     CONFIG_NAME BUILDROOT_ROOTFS_OVERLAY
@@ -99,13 +143,13 @@ add_config(
 add_config(
     CONFIG_NAME BUILDROOT_CONFIG_IN
     CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/xenstore/buildroot.config.in
+    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/rootfs/xenstore/buildroot.config.in
     DESCRIPTION "The .config file used by buildroot to build the guest image"
 )
 
 add_config(
     CONFIG_NAME LINUX_CONFIG_IN
     CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/xenstore/linux.config.in
+    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/rootfs/xenstore/linux.config.in
     DESCRIPTION "The .config file for the guest kernel"
 )

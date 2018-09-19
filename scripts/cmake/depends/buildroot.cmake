@@ -31,7 +31,8 @@ download_dependency(
 add_dependency(
     buildroot userspace
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
-    BUILD_COMMAND     make CC=gcc O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot
+    BUILD_COMMAND make O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
+    COMMAND make O=${BUILDROOT_BUILD_DIR} -C ${CACHE_DIR}/buildroot
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
 )
 
@@ -61,6 +62,8 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} configure-buildroot
         -DLINUX_CONFIG_OUT=${LINUX_CONFIG_OUT}
         -DBUILDROOT_CONFIG_IN=${BUILDROOT_CONFIG_IN}
         -DBUILDROOT_CONFIG_OUT=${BUILDROOT_CONFIG_OUT}
+        -DCT_TARGET=${CT_TARGET}
+        -DCT_PREFIX_DIR=${CT_PREFIX_DIR}
         -P ${HAVOC_CMAKE_DIR}/config/configure-buildroot.cmake
     DEPENDEES configure-linux
     DEPENDERS build
