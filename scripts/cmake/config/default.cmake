@@ -1,5 +1,5 @@
 #
-# Havoc Hypervisor
+# ERB
 # Copyright (C) 2018 Assured Information Security, Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -20,33 +20,33 @@
 # Source tree
 # ------------------------------------------------------------------------------
 
-set(HAVOC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..
+set(ERB_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..
     CACHE INTERNAL
     "Havoc source root directory"
 )
 
-set(HAVOC_CONFIG_DIR ${HAVOC_ROOT_DIR}/config
+set(ERB_IMAGE_DIR ${ERB_ROOT_DIR}/image
     CACHE INTERNAL
-    "Directory for storing configuration files for various guest images"
+    "Directory for storing configuration files for guest images"
 )
 
-set(HAVOC_SCRIPTS_DIR ${HAVOC_ROOT_DIR}/scripts
+set(ERB_SCRIPTS_DIR ${ERB_ROOT_DIR}/scripts
     CACHE INTERNAL
     "Directory for storing script files (cmake, bash, etc)"
 )
 
-set(HAVOC_CMAKE_DIR ${HAVOC_SCRIPTS_DIR}/cmake
+set(ERB_CMAKE_DIR ${ERB_SCRIPTS_DIR}/cmake
     CACHE INTERNAL
     "CMake root directory"
 )
 
-set(HAVOC_CMAKE_DEPENDS_DIR ${HAVOC_CMAKE_DIR}/depends
+set(ERB_CMAKE_DEPENDS_DIR ${ERB_CMAKE_DIR}/depends
     CACHE INTERNAL
     "CMake depends directory"
 )
 
 # ------------------------------------------------------------------------------
-# Crosstool variables
+# Crosstool (CT) variables
 # ------------------------------------------------------------------------------
 
 set(CT_URL "https://github.com/connojd/crosstool-ng/archive/master.zip"
@@ -94,62 +94,48 @@ add_config(
 )
 
 # ------------------------------------------------------------------------------
-# Buildroot
+# Buildroot (BR2) variables
 # ------------------------------------------------------------------------------
 
-set(BUILDROOT_URL "https://buildroot.org/downloads/buildroot-2018.08.tar.gz"
+set(BR2_URL "https://buildroot.org/downloads/buildroot-2018.08.tar.gz"
     CACHE INTERNAL FORCE
     "Buildroot URL"
 )
 
-set(BUILDROOT_URL_MD5 "8cc486858fc7812388dd82c27c3a2dcc"
+set(BR2_URL_MD5 "8cc486858fc7812388dd82c27c3a2dcc"
     CACHE INTERNAL FORCE
     "Buildroot URL MD5 hash"
 )
 
-set(BUILDROOT_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
+set(BR2_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
     CACHE INTERNAL
     "The build directory for the guest image"
 )
 
 add_config(
-    CONFIG_NAME BUILDROOT_ROOTFS_OVERLAY
+    CONFIG_NAME BR2_ROOTFS_OVERLAY
     CONFIG_TYPE STRING
     DEFAULT_VAL ""
     DESCRIPTION "Directory to overlay onto the rootfs built by buildroot"
 )
 
 add_config(
-    CONFIG_NAME BUILDROOT_PREBUILD_HOOK
+    CONFIG_NAME BR2_ROOTFS_POST_FAKEROOT_HOOKS
     CONFIG_TYPE STRING
-    DEFAULT_VAL ""
-    DESCRIPTION "Hook for pre-build customization of the image"
-)
-
-add_config(
-    CONFIG_NAME BUILDROOT_FAKEROOT_HOOK
-    CONFIG_TYPE STRING
-    DEFAULT_VAL "${HAVOC_SCRIPTS_DIR}/hooks/fakeroot/xenstore.sh"
+    DEFAULT_VAL "${ERB_IMAGE_DIR}/xenstore/hooks/fakeroot/init-systemd.sh"
     DESCRIPTION "Hook for post-build, pre-archive customization of the image"
 )
 
 add_config(
-    CONFIG_NAME BUILDROOT_POSTARCHIVE_HOOK
-    CONFIG_TYPE STRING
-    DEFAULT_VAL ""
-    DESCRIPTION "Hook for post-archive customization of the image"
-)
-
-add_config(
-    CONFIG_NAME BUILDROOT_CONFIG_IN
+    CONFIG_NAME BR2_CONFIG_IN
     CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/rootfs/xenstore/buildroot.config.in
+    DEFAULT_VAL ${ERB_IMAGE_DIR}/xenstore/buildroot.config.in
     DESCRIPTION "The .config file used by buildroot to build the guest image"
 )
 
 add_config(
     CONFIG_NAME LINUX_CONFIG_IN
     CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${HAVOC_CONFIG_DIR}/rootfs/xenstore/linux.config.in
+    DEFAULT_VAL ${ERB_IMAGE_DIR}/xenstore/linux.config.in
     DESCRIPTION "The .config file for the guest kernel"
 )

@@ -377,9 +377,9 @@ BR2_TARGET_TZ_INFO=y
 BR2_TARGET_TZ_ZONELIST="default"
 BR2_TARGET_LOCALTIME="Etc/UTC"
 BR2_ROOTFS_USERS_TABLES=""
-BR2_ROOTFS_OVERLAY="@BUILDROOT_ROOTFS_OVERLAY@"
+BR2_ROOTFS_OVERLAY="@BR2_ROOTFS_OVERLAY@"
 BR2_ROOTFS_POST_BUILD_SCRIPT=""
-BR2_ROOTFS_POST_FAKEROOT_SCRIPT="@BUILDROOT_ROOTFS_HOOK@"
+BR2_ROOTFS_POST_FAKEROOT_SCRIPT="@BR2_ROOTFS_POST_FAKEROOT_HOOKS@"
 BR2_ROOTFS_POST_IMAGE_SCRIPT=""
 BR2_ROOTFS_POST_SCRIPT_ARGS=""
 
@@ -1985,35 +1985,35 @@ BR2_PACKAGE_VDE2=y
 #
 
 #
-# Please note:                                           
+# Please note:
 #
 
 #
-# - Buildroot does *not* generate binary packages,       
+# - Buildroot does *not* generate binary packages,
 #
 
 #
-# - Buildroot does *not* install any package database.   
+# - Buildroot does *not* install any package database.
 #
 
 #
-# *                                                      
+# *
 #
 
 #
-# It is up to you to provide those by yourself if you    
+# It is up to you to provide those by yourself if you
 #
 
 #
-# want to use any of those package managers.             
+# want to use any of those package managers.
 #
 
 #
-# *                                                      
+# *
 #
 
 #
-# See the manual:                                        
+# See the manual:
 #
 
 #

@@ -1,4 +1,4 @@
-## Havoc Hypervisor
+## ERB
 
 Aims to use the [Bareflank](https://github.com/bareflank/hypervisor) SDK
 to create a fully-functional hyperivsor.

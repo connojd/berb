@@ -30,7 +30,7 @@ download_dependency(
 
 # Any @VAR@'s defined in ${CT_CONFIG_IN} have to be
 # passed with -D here
-set(BUILDROOT_CONFIG_OUT "${BUILDROOT_BUILD_DIR}/.config")
+set(BR2_CONFIG_OUT "${BR2_BUILD_DIR}/.config")
 add_dependency(
     crosstool-ng userspace
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E make_directory ${CACHE_DIR}/crosstool-ng/${CT_TARGET}/src
@@ -42,7 +42,7 @@ add_dependency(
         -DCACHE_DIR=${CACHE_DIR}
         -DCT_CONFIG_IN=${CACHE_DIR}/crosstool-ng/samples/${CT_TARGET}/crosstool.config.in
         -DCT_CONFIG_OUT=${CACHE_DIR}/crosstool-ng/samples/${CT_TARGET}/crosstool.config
-        -P ${HAVOC_CMAKE_DIR}/config/configure-crosstool-ng.cmake
+        -P ${ERB_CMAKE_DIR}/config/configure-crosstool-ng.cmake
     COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool-ng ./bootstrap
     COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool-ng ./configure --enable-local
 
