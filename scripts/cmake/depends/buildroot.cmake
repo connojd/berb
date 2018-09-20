@@ -62,6 +62,15 @@ download_dependency(
 )
 
 # ------------------------------------------------------------------------------
+# Setup root overlay
+# ------------------------------------------------------------------------------
+
+if(IMAGE STREQUAL "xenstore")
+    include_dependency(ERB_DEPENDS_DIR xen)
+    set(BR2_ROOTFS_OVERLAY ${XEN_BUILD_DIR}/dist/install)
+endif()
+
+# ------------------------------------------------------------------------------
 # Add dependency
 #
 # NOTE: Any @VAR@'s defined in ${LINUX_CONFIG_IN} have to be passed with -D here
@@ -100,7 +109,7 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
         -DBR2_CONFIG_OUT=${BR2_CONFIG_OUT}
         -DCT_PREFIX_DIR=${CT_PREFIX_DIR}
         -P ${ERB_CMAKE_DIR}/config/config-buildroot.cmake
-    DEPENDEES config-linux
+    DEPENDEES config-linux $<IF:$<STREQUAL:IMAGE,"xenstore">,xen_${USERSPACE_PREFIX},"">
     DEPENDERS build
     DEPENDS ${BR2_CONFIG_IN}
 )

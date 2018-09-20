@@ -66,5 +66,5 @@ set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
 
 set(
     BR2_ROOTFS_POST_FAKEROOT_HOOKS
-    "${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/init-systemd.sh"
+    $<IF:$<STREQUAL:IMAGE,"xenstore">,"${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/init-systemd.sh","">
 )
