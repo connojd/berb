@@ -59,15 +59,7 @@ download_dependency(
 
 add_dependency(
     crosstool userspace
-    STEP_TARGETS install
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E make_directory ${CACHE_DIR}/crosstool/${TUPLE}/src
-        COMMAND ${CMAKE_COMMAND}
-            -DCACHE_DIR=${CACHE_DIR}
-            -DCT_BUILD_DIR=${CT_BUILD_DIR}
-            -DCT_PREFIX_DIR=${CT_BUILD_DIR}/x-tools/${TUPLE}
-            -DCT_CONFIG_IN=${ERB_TOOLCHAIN_DIR}/${TUPLE}/crosstool.config.in
-            -DCT_CONFIG_OUT=${CACHE_DIR}/crosstool/samples/${TUPLE}/crosstool.config
-            -P ${ERB_CMAKE_DIR}/config/config-crosstool.cmake
         COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool ./bootstrap
         COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool ./configure --enable-local
     BUILD_COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool make
@@ -75,7 +67,14 @@ add_dependency(
 )
 
 ExternalProject_Add_Step(crosstool_${USERSPACE_PREFIX} build-toolchain
-    COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool ./ct-ng ${TUPLE}
+    COMMAND ${CMAKE_COMMAND}
+            -DCACHE_DIR=${CACHE_DIR}
+            -DCT_BUILD_DIR=${CT_BUILD_DIR}
+            -DCT_PREFIX_DIR=${CT_BUILD_DIR}/x-tools/${TUPLE}
+            -DCT_CONFIG_IN=${ERB_TOOLCHAIN_DIR}/${TUPLE}/crosstool.config.in
+            -DCT_CONFIG_OUT=${CACHE_DIR}/crosstool/samples/${TUPLE}/crosstool.config
+            -P ${ERB_CMAKE_DIR}/config/config-crosstool.cmake
+    COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool ./ct-ng ${TUPLE} -B
     COMMAND ${CMAKE_COMMAND} -E chdir ${CACHE_DIR}/crosstool ./ct-ng build
     DEPENDEES install
 )

@@ -82,6 +82,7 @@ add_dependency(
     BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
         COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+    DEPENDS crosstool_${USERSPACE_PREFIX}
 )
 
 ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-linux
@@ -91,7 +92,6 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-linux
         -DLINUX_CONFIG_OUT=${LINUX_CONFIG_OUT}
         -P ${ERB_CMAKE_DIR}/config/config-linux.cmake
     DEPENDEES configure
-    DEPENDEES crosstool_${USERSPACE_PREFIX}::install
     DEPENDS ${LINUX_CONFIG_IN}
 )
 
