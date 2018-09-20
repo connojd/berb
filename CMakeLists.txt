@@ -17,15 +17,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 # ------------------------------------------------------------------------------
-# Config
+# Source tree
+# ------------------------------------------------------------------------------
+
+set(ERB_IMAGE_DIR ${CMAKE_CURRENT_LIST_DIR}/image
+    CACHE INTERNAL
+    "Directory for storing configuration files for guest images"
+)
+
+set(ERB_TOOLCHAIN_DIR ${CMAKE_CURRENT_LIST_DIR}/toolchain
+    CACHE INTERNAL
+    "Directory for storing configuration files for toolchains"
+)
+
+set(ERB_SCRIPTS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts
+    CACHE INTERNAL
+    "Directory for storing script files (cmake, bash, etc)"
+)
+
+set(ERB_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts/cmake
+    CACHE INTERNAL
+    "CMake script directory"
+)
+
+set(ERB_DEPENDS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/depends
+    CACHE INTERNAL
+    "Dependency directory"
+)
+
+# ------------------------------------------------------------------------------
+# Default config
 # ------------------------------------------------------------------------------
 
 include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
 
-#
 # ------------------------------------------------------------------------------
-# General Dependencies
+# Dependencies
 # ------------------------------------------------------------------------------
 
-include_dependency(HAVOC_CMAKE_DEPENDS_DIR crosstool-ng)
-include_dependency(HAVOC_CMAKE_DEPENDS_DIR buildroot)
+include_dependency(ERB_DEPENDS_DIR crosstool)
+include_dependency(ERB_DEPENDS_DIR buildroot)

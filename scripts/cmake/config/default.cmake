@@ -17,100 +17,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 # ------------------------------------------------------------------------------
-# Source tree
+# The cross-compiler to build
 # ------------------------------------------------------------------------------
 
-set(ERB_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..
-    CACHE INTERNAL
-    "Havoc source root directory"
-)
-
-set(ERB_IMAGE_DIR ${ERB_ROOT_DIR}/image
-    CACHE INTERNAL
-    "Directory for storing configuration files for guest images"
-)
-
-set(ERB_SCRIPTS_DIR ${ERB_ROOT_DIR}/scripts
-    CACHE INTERNAL
-    "Directory for storing script files (cmake, bash, etc)"
-)
-
-set(ERB_CMAKE_DIR ${ERB_SCRIPTS_DIR}/cmake
-    CACHE INTERNAL
-    "CMake root directory"
-)
-
-set(ERB_CMAKE_DEPENDS_DIR ${ERB_CMAKE_DIR}/depends
-    CACHE INTERNAL
-    "CMake depends directory"
-)
-
-# ------------------------------------------------------------------------------
-# Crosstool (CT) variables
-# ------------------------------------------------------------------------------
-
-set(CT_URL "https://github.com/connojd/crosstool-ng/archive/master.zip"
-    CACHE INTERNAL FORCE
-    "Crosstool-ng URL"
-)
-
-set(CT_URL_MD5 "0e487e9da3013cbe20d07891c33e10ff"
-    CACHE INTERNAL FORCE
-    "Crosstool-ng URL MD5 hash"
-)
-
-set(CT_BUILD_DIR ${DEPENDS_DIR}/crosstool-ng/${USERSPACE_PREFIX}/build
-    CACHE INTERNAL
-    "The build dir for the toolchain targeting the guest image"
-)
-
-#
-# Note that crosstool-ng provides many preconfigured toolchains.
-# You can run ./ct-ng list-samples to see them all. As we use/test
-# more, we can pass them to the OPTIONS argument here.
-#
-# These configs are all the information that buildroot needs about
-# the external toolchain.
-#
 add_config(
-    CONFIG_NAME CT_TARGET
+    CONFIG_NAME TUPLE
     CONFIG_TYPE STRING
     DEFAULT_VAL "x86_64-unknown-linux-gnu"
-    DESCRIPTION "Target tuple of the toolchain"
-)
-
-add_config(
-    CONFIG_NAME CT_TARGET_VENDOR
-    CONFIG_TYPE STRING
-    DEFAULT_VAL "erb"
-    DESCRIPTION "The vendor of the toolchain"
-)
-
-add_config(
-    CONFIG_NAME CT_PREFIX_DIR
-    CONFIG_TYPE STRING
-    DEFAULT_VAL "${CT_BUILD_DIR}/x-tools/${CT_TARGET}"
-    DESCRIPTION "Directory of toolchain prefix"
+    DESCRIPTION "The tuple of the cross-compiler to build"
+    OPTIONS "x86_64-unknown-linux-gnu"
 )
 
 # ------------------------------------------------------------------------------
-# Buildroot (BR2) variables
+# The guest image to build
 # ------------------------------------------------------------------------------
 
-set(BR2_URL "https://buildroot.org/downloads/buildroot-2018.08.tar.gz"
-    CACHE INTERNAL FORCE
-    "Buildroot URL"
+add_config(
+    CONFIG_NAME IMAGE
+    CONFIG_TYPE STRING
+    DEFAULT_VAL "xenstore"
+    DESCRIPTION "The guest image to build"
+    OPTIONS "xenstore"
+    OPTIONS "qemu"
 )
 
-set(BR2_URL_MD5 "8cc486858fc7812388dd82c27c3a2dcc"
-    CACHE INTERNAL FORCE
-    "Buildroot URL MD5 hash"
-)
-
-set(BR2_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build
-    CACHE INTERNAL
-    "The build directory for the guest image"
-)
+# ------------------------------------------------------------------------------
+# Buildroot (BR2) rootfs overlay
+# ------------------------------------------------------------------------------
 
 add_config(
     CONFIG_NAME BR2_ROOTFS_OVERLAY
@@ -119,23 +52,22 @@ add_config(
     DESCRIPTION "Directory to overlay onto the rootfs built by buildroot"
 )
 
-add_config(
-    CONFIG_NAME BR2_ROOTFS_POST_FAKEROOT_HOOKS
-    CONFIG_TYPE STRING
-    DEFAULT_VAL "${ERB_IMAGE_DIR}/xenstore/hooks/fakeroot/init-systemd.sh"
-    DESCRIPTION "Hook for post-build, pre-archive customization of the image"
+# ------------------------------------------------------------------------------
+# Image variables
+# ------------------------------------------------------------------------------
+
+set(CT_CONFIG_IN ${ERB_TOOLCHAIN_DIR}/${TUPLE}/crosstool.config.in)
+set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
+set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
+
+# ------------------------------------------------------------------------------
+# Fakeroot hooks
+# ------------------------------------------------------------------------------
+
+file(GLOB BR2_ROOTFS_POST_FAKEROOT_HOOKS
+    LIST_DIRECTORIES FALSE
+    CONFIGURE_DEPENDS
+    "${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/*"
 )
 
-add_config(
-    CONFIG_NAME BR2_CONFIG_IN
-    CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${ERB_IMAGE_DIR}/xenstore/buildroot.config.in
-    DESCRIPTION "The .config file used by buildroot to build the guest image"
-)
-
-add_config(
-    CONFIG_NAME LINUX_CONFIG_IN
-    CONFIG_TYPE FILEPATH
-    DEFAULT_VAL ${ERB_IMAGE_DIR}/xenstore/linux.config.in
-    DESCRIPTION "The .config file for the guest kernel"
-)
+#message("hooks: ${BR2_ROOTFS_POST_FAKEROOT_HOOKS}")
