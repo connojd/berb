@@ -82,7 +82,7 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-linux
         -DLINUX_CONFIG_OUT=${LINUX_CONFIG_OUT}
         -P ${ERB_CMAKE_DIR}/config/config-linux.cmake
     DEPENDEES configure
-    DEPENDEES crosstool_${USERSPACE_PREFIX}-install
+    DEPENDEES crosstool_${USERSPACE_PREFIX}::install
     DEPENDS ${LINUX_CONFIG_IN}
 )
 

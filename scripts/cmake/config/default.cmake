@@ -64,10 +64,7 @@ set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
 # Fakeroot hooks
 # ------------------------------------------------------------------------------
 
-file(GLOB BR2_ROOTFS_POST_FAKEROOT_HOOKS
-    LIST_DIRECTORIES FALSE
-    CONFIGURE_DEPENDS
-    "${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/*"
+set(
+    BR2_ROOTFS_POST_FAKEROOT_HOOKS
+    "${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/init-systemd.sh"
 )
-
-#message("hooks: ${BR2_ROOTFS_POST_FAKEROOT_HOOKS}")
