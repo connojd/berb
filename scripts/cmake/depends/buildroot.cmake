@@ -109,10 +109,18 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
         -DBR2_CONFIG_OUT=${BR2_CONFIG_OUT}
         -DCT_PREFIX_DIR=${CT_PREFIX_DIR}
         -P ${ERB_CMAKE_DIR}/config/config-buildroot.cmake
-    DEPENDEES config-linux $<IF:$<STREQUAL:IMAGE,"xenstore">,xen_${USERSPACE_PREFIX},"">
+    DEPENDEES config-linux
     DEPENDERS build
     DEPENDS ${BR2_CONFIG_IN}
 )
+
+if(IMAGE STREQUAL "xenstore")
+    ExternalProject_Add_StepDependencies(
+        buildroot_${USERSPACE_PREFIX}
+        config-buildroot
+        xen_${USERSPACE_PREFIX}
+    )
+endif()
 
 add_custom_target_category("ERB Guest Image")
 add_custom_target(image DEPENDS buildroot_${USERSPACE_PREFIX})

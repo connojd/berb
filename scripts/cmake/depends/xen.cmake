@@ -55,9 +55,15 @@ download_dependency(
 # Add dependency
 # ------------------------------------------------------------------------------
 
+#TODO: satisfy python2 requirement
+find_package(PythonInterp 2.7 REQUIRED)
+find_package(PythonLibs 2.7 REQUIRED)
+
 add_dependency(
     xen userspace
-        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr
+        CONFIGURE_COMMAND
+        # ${CMAKE_COMMAND} -E create_symlink /usr/
+            ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr
     BUILD_COMMAND make O=${XEN_BUILD_DIR} -C ${CACHE_DIR}/xen dist-xen
         COMMAND make O=${XEN_BUILD_DIR} -C ${CACHE_DIR}/xen dist-tools
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
