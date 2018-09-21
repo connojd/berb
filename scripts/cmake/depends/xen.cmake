@@ -61,10 +61,9 @@ find_package(PythonLibs 2.7 REQUIRED)
 
 add_dependency(
     xen userspace
-        CONFIGURE_COMMAND
-        # ${CMAKE_COMMAND} -E create_symlink /usr/
-            ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr
-    BUILD_COMMAND make O=${XEN_BUILD_DIR} -C ${CACHE_DIR}/xen dist-xen
-        COMMAND make O=${XEN_BUILD_DIR} -C ${CACHE_DIR}/xen dist-tools
+    CONFIGURE_COMMAND ${ERB_SCRIPTS_DIR}/setup/xen.sh
+        COMMAND ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr
+    BUILD_COMMAND make -C ${CACHE_DIR}/xen dist-xen -j${HOST_NUMBER_CORES}
+        COMMAND  make -C ${CACHE_DIR}/xen dist-tools -j${HOST_NUMBER_CORES}
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
 )
