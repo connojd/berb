@@ -42,23 +42,12 @@ add_config(
 )
 
 # ------------------------------------------------------------------------------
-# Buildroot (BR2) rootfs overlay
-# ------------------------------------------------------------------------------
-
-add_config(
-    CONFIG_NAME BR2_ROOTFS_OVERLAY
-    CONFIG_TYPE STRING
-    DEFAULT_VAL ""
-    DESCRIPTION "Directory to overlay onto the rootfs built by buildroot"
-)
-
-# ------------------------------------------------------------------------------
 # Image variables
 # ------------------------------------------------------------------------------
 
 set(CT_CONFIG_IN ${ERB_TOOLS_DIR}/${TUPLE}/crosstool.config.in)
-set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
 set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
+set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
 
 # ------------------------------------------------------------------------------
 # Fakeroot hooks

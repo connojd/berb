@@ -34,7 +34,7 @@ set(BR2_URL_MD5 "8cc486858fc7812388dd82c27c3a2dcc"
     "Buildroot URL MD5 hash"
 )
 
-set(BR2_BUILD_DIR ${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build/${IMAGE}
+set(BR2_BUILD_DIR "${DEPENDS_DIR}/buildroot/${USERSPACE_PREFIX}/build/${IMAGE}"
     CACHE INTERNAL
     "The build directory for the guest image"
 )
@@ -85,6 +85,12 @@ add_dependency(
     DEPENDS crosstool_${USERSPACE_PREFIX}
 )
 
+# ------------------------------------------------------------------------------
+# Add dependency steps
+#
+# NOTE: Any @VAR@'s defined in ${BR2_CONFIG_IN} have to be passed with -D here
+# ------------------------------------------------------------------------------
+
 ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-linux
     COMMAND
         ${CMAKE_COMMAND}
@@ -94,12 +100,6 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-linux
     DEPENDEES configure
     DEPENDS ${LINUX_CONFIG_IN}
 )
-
-# ------------------------------------------------------------------------------
-# Add dependency
-#
-# NOTE: Any @VAR@'s defined in ${BR2_CONFIG_IN} have to be passed with -D here
-# ------------------------------------------------------------------------------
 
 ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
     COMMAND

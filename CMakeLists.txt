@@ -22,17 +22,17 @@
 
 set(ERB_IMAGE_DIR ${CMAKE_CURRENT_LIST_DIR}/image
     CACHE INTERNAL
-    "Directory for storing configuration files for guest images"
+    "Directory for config files for guest images"
 )
 
 set(ERB_TOOLS_DIR ${CMAKE_CURRENT_LIST_DIR}/tools
     CACHE INTERNAL
-    "Directory for storing configuration files for cross tools"
+    "Directory for config files for cross tools"
 )
 
 set(ERB_SCRIPTS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts
     CACHE INTERNAL
-    "Directory for storing script files (cmake, bash, etc)"
+    "Directory for scripts"
 )
 
 set(ERB_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts/cmake
