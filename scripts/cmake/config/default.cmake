@@ -21,11 +21,25 @@
 # ------------------------------------------------------------------------------
 
 add_config(
-    CONFIG_NAME TUPLE
+    CONFIG_NAME BUILD_TOOLS_ONLY
+    CONFIG_TYPE BOOL
+    DEFAULT_VAL FALSE
+    DESCRIPTION "Set to true if only the cross-compiler should be built"
+)
+
+add_config(
+    CONFIG_NAME CT_TUPLE
     CONFIG_TYPE STRING
     DEFAULT_VAL "x86_64-unknown-linux-gnu"
     DESCRIPTION "The tuple of the cross-compiler to build"
     OPTIONS "x86_64-unknown-linux-gnu"
+)
+
+add_config(
+    CONFIG_NAME CT_PREFIX_DIR
+    CONFIG_TYPE STRING
+    DEFAULT_VAL ""
+    DESCRIPTION "The *absolute* path to the prefix of the cross-compiler"
 )
 
 # ------------------------------------------------------------------------------
@@ -45,7 +59,7 @@ add_config(
 # Image variables
 # ------------------------------------------------------------------------------
 
-set(CT_CONFIG_IN ${ERB_TOOLS_DIR}/${TUPLE}/crosstool.config.in)
+set(CT_CONFIG_IN ${ERB_TOOLS_DIR}/${CT_TUPLE}/crosstool.config.in)
 set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
 set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
 
@@ -53,7 +67,4 @@ set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
 # Fakeroot hooks
 # ------------------------------------------------------------------------------
 
-set(
-    BR2_ROOTFS_POST_FAKEROOT_HOOKS
-    $<IF:$<STREQUAL:"${IMAGE}","xenstore">,"${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot/init-systemd.sh","">
-)
+set(BR2_ROOTFS_POST_FAKEROOT_HOOKS "${ERB_IMAGE_DIR}/${IMAGE}/hooks/fakeroot.sh")

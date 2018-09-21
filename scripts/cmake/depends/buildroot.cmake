@@ -70,21 +70,39 @@ if(IMAGE STREQUAL "xenstore")
     set(BR2_ROOTFS_OVERLAY ${XEN_BUILD_DIR}/dist/install)
 endif()
 
+if(IMAGE STREQUAL "tiny")
+    set(BR2_ROOTFS_OVERLAY ${ERB_IMAGE_DIR}/${IMAGE}/overlay)
+endif()
+
 # ------------------------------------------------------------------------------
 # Add dependency
 #
 # NOTE: Any @VAR@'s defined in ${LINUX_CONFIG_IN} have to be passed with -D here
 # ------------------------------------------------------------------------------
 
-add_dependency(
-    buildroot userspace
-    CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
-    BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
-        COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
-    INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
-    DEPENDS crosstool_${USERSPACE_PREFIX}
-    BUILD_ALWAYS TRUE
-)
+if(CT_PREFIX_DIR STREQUAL "")
+    set(CT_PREFIX_DIR ${DEPENDS_DIR}/../../xtools/${CT_TUPLE})
+    include_dependency(ERB_DEPENDS_DIR crosstool)
+    add_dependency(
+        buildroot userspace
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+        BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
+            COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
+        INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+        DEPENDS crosstool_${USERSPACE_PREFIX}
+        BUILD_ALWAYS TRUE
+    )
+else()
+    add_dependency(
+        buildroot userspace
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+        BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
+            COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
+        INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+        BUILD_ALWAYS TRUE
+    )
+endif()
+
 
 # ------------------------------------------------------------------------------
 # Add dependency steps
@@ -108,8 +126,10 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
         -DLINUX_CONFIG_OUT=${LINUX_CONFIG_OUT}
         -DBR2_CONFIG_IN=${BR2_CONFIG_IN}
         -DBR2_CONFIG_OUT=${BR2_CONFIG_OUT}
-        -DCT_PREFIX_DIR=${CT_BUILD_DIR}/x-tools/${TUPLE}
-        -DTUPLE=${TUPLE}
+        -DBR2_ROOTFS_OVERLAY=${BR2_ROOTFS_OVERLAY}
+        -DBR2_ROOTFS_POST_FAKEROOT_HOOKS=${BR2_ROOTFS_POST_FAKEROOT_HOOKS}
+        -DCT_PREFIX_DIR=${CT_PREFIX_DIR}
+        -DCT_TUPLE=${CT_TUPLE}
         -P ${ERB_CMAKE_DIR}/config/config-buildroot.cmake
     DEPENDEES config-linux
     DEPENDERS build

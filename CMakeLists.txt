@@ -55,5 +55,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
 # Dependencies
 # ------------------------------------------------------------------------------
 
-include_dependency(ERB_DEPENDS_DIR crosstool)
-include_dependency(ERB_DEPENDS_DIR buildroot)
+if(BUILD_TOOLS_ONLY)
+    include_dependency(ERB_DEPENDS_DIR crosstool)
+else()
+    include_dependency(ERB_DEPENDS_DIR buildroot)
+endif()
