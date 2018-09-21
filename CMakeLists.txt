@@ -25,9 +25,9 @@ set(ERB_IMAGE_DIR ${CMAKE_CURRENT_LIST_DIR}/image
     "Directory for storing configuration files for guest images"
 )
 
-set(ERB_TOOLCHAIN_DIR ${CMAKE_CURRENT_LIST_DIR}/toolchain
+set(ERB_TOOLS_DIR ${CMAKE_CURRENT_LIST_DIR}/tools
     CACHE INTERNAL
-    "Directory for storing configuration files for toolchains"
+    "Directory for storing configuration files for cross tools"
 )
 
 set(ERB_SCRIPTS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts

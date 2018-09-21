@@ -35,10 +35,10 @@ add_config(
 add_config(
     CONFIG_NAME IMAGE
     CONFIG_TYPE STRING
-    DEFAULT_VAL "xenstore"
+    DEFAULT_VAL "tiny"
     DESCRIPTION "The guest image to build"
+    OPTIONS "tiny"
     OPTIONS "xenstore"
-    OPTIONS "qemu"
 )
 
 # ------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ add_config(
 # Image variables
 # ------------------------------------------------------------------------------
 
-set(CT_CONFIG_IN ${ERB_TOOLCHAIN_DIR}/${TUPLE}/crosstool.config.in)
+set(CT_CONFIG_IN ${ERB_TOOLS_DIR}/${TUPLE}/crosstool.config.in)
 set(LINUX_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/linux.config.in)
 set(BR2_CONFIG_IN ${ERB_IMAGE_DIR}/${IMAGE}/buildroot.config.in)
 

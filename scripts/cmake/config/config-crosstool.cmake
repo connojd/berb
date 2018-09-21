@@ -16,6 +16,9 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
+message("config in: ${CT_CONFIG_IN}")
+message("config out: ${CT_CONFIG_OUT}")
+
 configure_file(
     ${CT_CONFIG_IN}
     ${CT_CONFIG_OUT}
