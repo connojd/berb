@@ -83,6 +83,7 @@ add_dependency(
         COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
     DEPENDS crosstool_${USERSPACE_PREFIX}
+    BUILD_ALWAYS TRUE
 )
 
 # ------------------------------------------------------------------------------
@@ -107,7 +108,8 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
         -DLINUX_CONFIG_OUT=${LINUX_CONFIG_OUT}
         -DBR2_CONFIG_IN=${BR2_CONFIG_IN}
         -DBR2_CONFIG_OUT=${BR2_CONFIG_OUT}
-        -DCT_PREFIX_DIR=${CT_PREFIX_DIR}
+        -DCT_PREFIX_DIR=${CT_BUILD_DIR}/x-tools/${TUPLE}
+        -DTUPLE=${TUPLE}
         -P ${ERB_CMAKE_DIR}/config/config-buildroot.cmake
     DEPENDEES config-linux
     DEPENDERS build
