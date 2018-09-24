@@ -87,7 +87,7 @@ if(CT_PREFIX_DIR STREQUAL "")
         buildroot userspace
         CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
         BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
-            COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
+              COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
         INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
         DEPENDS crosstool_${USERSPACE_PREFIX}
         BUILD_ALWAYS TRUE
@@ -97,7 +97,7 @@ else()
         buildroot userspace
         CONFIGURE_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
         BUILD_COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot olddefconfig
-            COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
+              COMMAND make O=${BR2_BUILD_DIR} -C ${CACHE_DIR}/buildroot
         INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
         BUILD_ALWAYS TRUE
     )

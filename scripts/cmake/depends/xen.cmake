@@ -55,9 +55,6 @@ download_dependency(
 # Add dependency
 # ------------------------------------------------------------------------------
 
-find_package(PythonInterp 2.7 REQUIRED)
-find_package(PythonLibs 2.7 REQUIRED)
-
 add_dependency(
     xen userspace
     CONFIGURE_COMMAND ${ERB_SCRIPTS_DIR}/setup/xen.sh
