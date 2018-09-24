@@ -67,7 +67,7 @@ where \<tuple\> is the value of `${CT_TUPLE}`.
 Once the image is made, you can test it out with qemu (the root password is `asdf`):
 
 ```
-qemu-system-x86_64 -kernel depends/buildroot/x86_64-userspace-elf/build/tiny/arch/x86_64/boot/bzImage
+qemu-system-x86_64 -kernel depends/buildroot/x86_64-userspace-elf/build/tiny/build/linux-4.17.19/arch/x86_64/boot/bzImage
 ```
 
 With any luck, the kernel will boot and you will see the a process
