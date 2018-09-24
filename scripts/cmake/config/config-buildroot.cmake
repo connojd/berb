@@ -1,5 +1,5 @@
 #
-# Havoc Hypervisor
+# ERB
 # Copyright (C) 2018 Assured Information Security, Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -17,8 +17,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 configure_file(
-    ${BUILDROOT_CONFIG_IN}
-    ${BUILDROOT_CONFIG_OUT}
+    ${BR2_CONFIG_IN}
+    ${BR2_CONFIG_OUT}
     @ONLY
     NEWLINE_STYLE UNIX
 )

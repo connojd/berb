@@ -16,47 +16,50 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-# ------------------------------------------------------------------------------
-# Source tree
-# ------------------------------------------------------------------------------
-
-set(ERB_IMAGE_DIR ${CMAKE_CURRENT_LIST_DIR}/image
-    CACHE INTERNAL
-    "Directory for config files for guest images"
-)
-
-set(ERB_TOOLS_DIR ${CMAKE_CURRENT_LIST_DIR}/tools
-    CACHE INTERNAL
-    "Directory for config files for cross tools"
-)
-
-set(ERB_SCRIPTS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts
-    CACHE INTERNAL
-    "Directory for scripts"
-)
-
-set(ERB_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts/cmake
-    CACHE INTERNAL
-    "CMake script directory"
-)
-
-set(ERB_DEPENDS_DIR ${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/depends
-    CACHE INTERNAL
-    "Dependency directory"
-)
-
-# ------------------------------------------------------------------------------
-# Default config
-# ------------------------------------------------------------------------------
-
-include(${CMAKE_CURRENT_LIST_DIR}/scripts/cmake/config/default.cmake)
-
-# ------------------------------------------------------------------------------
-# Dependencies
-# ------------------------------------------------------------------------------
-
-if(BUILD_TOOLS_ONLY)
-    include_dependency(ERB_DEPENDS_DIR crosstool)
-else()
-    include_dependency(ERB_DEPENDS_DIR buildroot)
+if(WIN32 OR CYGWIN)
+    return()
 endif()
+
+# ------------------------------------------------------------------------------
+# Xen variables
+# ------------------------------------------------------------------------------
+
+set(XEN_URL "https://github.com/connojd/xen/archive/master.zip"
+    CACHE INTERNAL FORCE
+    "Xen URL"
+)
+
+set(XEN_URL_MD5 "f30b475dda6681a0675e57c28f4c7d98"
+    CACHE INTERNAL FORCE
+    "Xen URL MD5 hash"
+)
+
+set(XEN_BUILD_DIR ${CACHE_DIR}/xen
+    CACHE INTERNAL
+    "Xen build directory"
+)
+
+# ------------------------------------------------------------------------------
+# Download
+# ------------------------------------------------------------------------------
+
+message(STATUS "Including dependency: xen")
+
+download_dependency(
+    xen
+    URL         ${XEN_URL}
+    URL_MD5     ${XEN_URL_MD5}
+)
+
+# ------------------------------------------------------------------------------
+# Add dependency
+# ------------------------------------------------------------------------------
+
+add_dependency(
+    xen userspace
+    CONFIGURE_COMMAND ${ERB_SCRIPTS_DIR}/setup/xen.sh
+    COMMAND ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr --with-extra-qemuu-configure-args=--extra-cflags=-Wno-deprecated-declarations
+    BUILD_COMMAND make -C ${CACHE_DIR}/xen dist-xen -j${HOST_NUMBER_CORES}
+        COMMAND  make -C ${CACHE_DIR}/xen dist-tools -j${HOST_NUMBER_CORES}
+    INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
+)

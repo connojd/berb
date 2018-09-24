@@ -1,5 +1,5 @@
 #
-# Havoc Hypervisor
+# ERB
 # Copyright (C) 2018 Assured Information Security, Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -16,9 +16,12 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
+message("config in: ${CT_CONFIG_IN}")
+message("config out: ${CT_CONFIG_OUT}")
+
 configure_file(
-    ${LINUX_CONFIG_IN}
-    ${LINUX_CONFIG_OUT}
+    ${CT_CONFIG_IN}
+    ${CT_CONFIG_OUT}
     @ONLY
     NEWLINE_STYLE UNIX
 )
