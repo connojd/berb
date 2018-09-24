@@ -1,7 +1,9 @@
 #!/bin/bash
 
 sudo apt update
-sudo apt install build-essential bison flex python bc
+sudo apt-get install -y make cmake gcc g++ python autoconf bison flex \
+    texinfo help2man gawk libtool libtool-bin libncurses5-dev libelf-dev \
+    libssl-dev
 
 # Download a new cmake
 pushd $HOME
