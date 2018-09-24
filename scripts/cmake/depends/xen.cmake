@@ -60,6 +60,6 @@ add_dependency(
     CONFIGURE_COMMAND ${ERB_SCRIPTS_DIR}/setup/xen.sh
     COMMAND ${CMAKE_COMMAND} -E chdir ${XEN_BUILD_DIR} ./configure --disable-rombios --disable-seabios --disable-docs --disable-stubdom --prefix=/usr --with-extra-qemuu-configure-args=--extra-cflags=-Wno-deprecated-declarations
     BUILD_COMMAND make -C ${CACHE_DIR}/xen dist-xen -j${HOST_NUMBER_CORES}
-        COMMAND  make -C ${CACHE_DIR}/xen dist-tools -j${HOST_NUMBER_CORES}
+          COMMAND make -C ${CACHE_DIR}/xen dist-tools -j${HOST_NUMBER_CORES}
     INSTALL_COMMAND ${CMAKE_COMMAND} -E touch_nocreate kludge
 )

@@ -65,7 +65,7 @@ download_dependency(
 # Setup root overlay
 # ------------------------------------------------------------------------------
 
-if(IMAGE STREQUAL "xenstore")
+if(IMAGE STREQUAL "xenstore" OR IMAGE STREQUAL "ndvm")
     include_dependency(ERB_DEPENDS_DIR xen)
     set(BR2_ROOTFS_OVERLAY ${XEN_BUILD_DIR}/dist/install)
 endif()
@@ -136,7 +136,7 @@ ExternalProject_Add_Step(buildroot_${USERSPACE_PREFIX} config-buildroot
     DEPENDS ${BR2_CONFIG_IN}
 )
 
-if(IMAGE STREQUAL "xenstore")
+if(IMAGE STREQUAL "xenstore" OR IMAGE STREQUAL "ndvm")
     ExternalProject_Add_StepDependencies(
         buildroot_${USERSPACE_PREFIX}
         config-buildroot

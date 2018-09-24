@@ -54,6 +54,7 @@ add_config(
     OPTIONS "tiny"
     OPTIONS "tiny-smp"
     OPTIONS "xenstore"
+    OPTIONS "ndvm"
 )
 
 # ------------------------------------------------------------------------------
