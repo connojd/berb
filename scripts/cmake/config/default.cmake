@@ -52,6 +52,7 @@ add_config(
     DEFAULT_VAL "tiny"
     DESCRIPTION "The guest image to build"
     OPTIONS "tiny"
+    OPTIONS "tiny-smp"
     OPTIONS "xenstore"
 )
 
